@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HttpVerbs.Model.Context;
 using HttpVerbs.Services;
 using HttpVerbs.Services.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,11 +31,15 @@ namespace HttpVerbs
         {
             services.AddControllers();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
-
+            //Acessa o arquivo appsettings
+            string connection = Configuration["MySqlConnection:ConnectionString"];
+            services.AddDbContext<MysqlContext>(opt => opt.UseMySql(connection));
+                        
             //Interface e a classe que ela implementa
             services.AddScoped<IPersonService, PersonServiceImplementation>(); //Injeção de dependencias
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
