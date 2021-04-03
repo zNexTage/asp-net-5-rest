@@ -1,1 +1,2 @@
 ﻿Pomelo -> Entity framework para o Mysql
+Microsoft.AspNetCore.Mvc.Versioning -> Versionamento do projeto.

@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HttpVerbs.Business;
+using HttpVerbs.Business.Implementations;
 using HttpVerbs.Model.Context;
-using HttpVerbs.Services;
-using HttpVerbs.Services.Implementations;
+using HttpVerbs.Repository;
+using HttpVerbs.Repository.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace HttpVerbs
 {
@@ -34,9 +29,12 @@ namespace HttpVerbs
             //Acessa o arquivo appsettings
             string connection = Configuration["MySqlConnection:ConnectionString"];
             services.AddDbContext<MysqlContext>(opt => opt.UseMySql(connection));
-                        
+
+            services.AddApiVersioning(); //Versionamento de api
+
             //Interface e a classe que ela implementa
-            services.AddScoped<IPersonService, PersonServiceImplementation>(); //Injeção de dependencias
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>(); //Injeção de dependencias
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>(); //Injeção de dependencias
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();

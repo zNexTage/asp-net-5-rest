@@ -6,11 +6,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HttpVerbs.Services.Implementations
+namespace HttpVerbs.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    public class PersonRepositoryImplementation : IPersonRepository
     {
         private MysqlContext _context;
+
+        public PersonRepositoryImplementation(MysqlContext context)
+        {
+            _context = context;
+        }
 
         public List<Person> FindAll()
         {
@@ -22,10 +27,7 @@ namespace HttpVerbs.Services.Implementations
             return _context.People.SingleOrDefault(p => p.Id == id);
         }
 
-        public PersonServiceImplementation(MysqlContext context)
-        {
-            _context = context;
-        }
+       
 
         public Person Create(Person person)
         {
@@ -82,7 +84,7 @@ namespace HttpVerbs.Services.Implementations
             return person;
         }
 
-        private bool Exists(long id)
+        public bool Exists(long id)
         {
             return _context.People.Any(p => p.Id == id);
         }

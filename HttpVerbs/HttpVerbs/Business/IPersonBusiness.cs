@@ -1,9 +1,9 @@
 ﻿using HttpVerbs.Model;
 using System.Collections.Generic;
 
-namespace HttpVerbs.Services
+namespace HttpVerbs.Business
 {
-    public interface IPersonService
+    public interface IPersonBusiness
     {
         Person Create(Person person);
         Person FindById(long id);
